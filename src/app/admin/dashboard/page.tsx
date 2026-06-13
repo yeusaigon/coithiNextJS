@@ -1047,8 +1047,8 @@ export default function DashboardPage() {
         {/* Floating Add Button - iOS Rounded FAB style */}
         <button 
           onClick={handleOpenAddModal}
-          className="sm:hidden fixed right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-blue-500 text-white shadow-lg shadow-blue-500/25 transition-transform active:scale-95 focus:outline-none"
-          style={{ bottom: 'max(1.25rem, calc(env(safe-area-inset-bottom) + 1.25rem))' }}
+          className="sm:hidden fixed right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-blue-500 text-white shadow-[0_18px_35px_rgba(37,99,235,0.28)] ring-1 ring-white/30 transition-transform active:scale-95 focus:outline-none"
+          style={{ bottom: 'max(3rem, calc(env(safe-area-inset-bottom) + 3rem))' }}
           title="Thêm lịch thi"
         >
           <FiPlus className="h-6 w-6" />
