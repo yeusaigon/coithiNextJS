@@ -15,7 +15,7 @@ import {
 import * as XLSX from 'xlsx';
 
 import { 
-  FiPlus, FiCalendar, FiClock, FiUpload, FiDownload, FiX, FiChevronUp, FiChevronDown, FiCheck, FiEdit3, FiTrash2, FiMenu 
+  FiPlus, FiCalendar, FiClock, FiUpload, FiDownload, FiX, FiChevronUp, FiChevronDown, FiCheck, FiEdit3, FiTrash2, FiMenu, FiSettings
 } from 'react-icons/fi';
 import { FaGoogle, FaFileExcel, FaCircleInfo, FaFileImport, FaGraduationCap, FaBookOpen } from 'react-icons/fa6';
 
@@ -89,6 +89,7 @@ export default function DashboardPage() {
 
   // Show/Hide To Top Button
   const [showToTop, setShowToTop] = useState(false);
+  const [isToolsMenuOpen, setIsToolsMenuOpen] = useState(false);
 
   // Countdown timer state
   const [upcomingCountdown, setUpcomingCountdown] = useState('-');
@@ -98,6 +99,7 @@ export default function DashboardPage() {
 
   // File Upload input reference
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const toolsMenuRef = useRef<HTMLDivElement>(null);
 
   // --- SCHOOL TIME MAP GETTER ---
   const getActiveTimeMap = () => {
@@ -175,6 +177,17 @@ export default function DashboardPage() {
       }
     };
   }, [user]);
+
+  useEffect(() => {
+    const handlePointerDown = (event: MouseEvent) => {
+      if (toolsMenuRef.current && !toolsMenuRef.current.contains(event.target as Node)) {
+        setIsToolsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handlePointerDown);
+    return () => document.removeEventListener('mousedown', handlePointerDown);
+  }, []);
 
   // Autocomplete & Unique month parsing
   useEffect(() => {
@@ -731,38 +744,68 @@ export default function DashboardPage() {
           </button>
           
           <div className="h-5 w-px bg-slate-200/80 mx-1 hidden sm:block"></div>
-          
-          <button 
-            onClick={() => setIsImportOpen(true)}
-            className="w-9 h-9 bg-slate-100 hover:bg-blue-50 hover:text-blue-600 rounded-xl flex items-center justify-center transition-all focus:outline-none active:scale-95 text-slate-600" 
-            title="Nhập từ Excel"
-          >
-            <FaFileImport className="text-sm" />
-          </button>
-          
-          <button 
-            onClick={() => exportToExcel(schedules, showToast)}
-            className="w-9 h-9 bg-slate-100 hover:bg-green-50 hover:text-green-600 rounded-xl flex items-center justify-center transition-all focus:outline-none active:scale-95 text-slate-600" 
-            title="Xuất ra Excel"
-          >
-            <FaFileExcel className="text-sm" />
-          </button>
-          
-          <button 
-            onClick={() => setIsExportGcalOpen(true)}
-            className="w-9 h-9 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded-xl flex items-center justify-center transition-all focus:outline-none active:scale-95 text-slate-600" 
-            title="Lưu vào Google Lịch"
-          >
-            <FaGoogle className="text-sm" />
-          </button>
-          
-          <button 
-            onClick={handleOpenDeleteUpcoming}
-            className="w-9 h-9 bg-slate-100 hover:bg-red-50 hover:text-red-600 rounded-xl flex items-center justify-center transition-all focus:outline-none active:scale-95 text-slate-600" 
-            title="Xóa lịch sắp tới"
-          >
-            <FiCalendar className="text-sm" />
-          </button>
+
+          <div ref={toolsMenuRef} className="relative">
+            <button
+              type="button"
+              onClick={() => setIsToolsMenuOpen(prev => !prev)}
+              className="inline-flex h-10 items-center gap-2 rounded-xl border border-slate-200 bg-slate-100 px-3 text-sm font-bold text-slate-700 transition-all hover:bg-slate-50 hover:text-slate-900 active:scale-95"
+              title="Tiện ích lịch thi"
+            >
+              <FiSettings className="h-4 w-4" />
+              <span className="hidden sm:inline">Tiện ích</span>
+              <FiChevronDown className={`h-4 w-4 transition-transform ${isToolsMenuOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {isToolsMenuOpen && (
+              <div className="absolute right-0 top-12 z-40 w-56 overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-[0_20px_45px_rgba(15,23,42,0.14)]">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsToolsMenuOpen(false);
+                    setIsImportOpen(true);
+                  }}
+                  className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-semibold text-slate-700 transition-colors hover:bg-blue-50 hover:text-blue-700"
+                >
+                  <FaFileImport className="text-sm" />
+                  <span>Nhập từ Excel</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsToolsMenuOpen(false);
+                    exportToExcel(schedules, showToast);
+                  }}
+                  className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-semibold text-slate-700 transition-colors hover:bg-green-50 hover:text-green-700"
+                >
+                  <FaFileExcel className="text-sm" />
+                  <span>Xuất ra Excel</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsToolsMenuOpen(false);
+                    setIsExportGcalOpen(true);
+                  }}
+                  className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-semibold text-slate-700 transition-colors hover:bg-indigo-50 hover:text-indigo-700"
+                >
+                  <FaGoogle className="text-sm" />
+                  <span>Lưu vào Google Lịch</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsToolsMenuOpen(false);
+                    handleOpenDeleteUpcoming();
+                  }}
+                  className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-semibold text-slate-700 transition-colors hover:bg-red-50 hover:text-red-700"
+                >
+                  <FiCalendar className="text-sm" />
+                  <span>Xóa lịch sắp tới</span>
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </header>
 
@@ -1004,15 +1047,19 @@ export default function DashboardPage() {
         {/* Floating Add Button - iOS Rounded FAB style */}
         <button 
           onClick={handleOpenAddModal}
-          className="sm:hidden fixed bottom-6 right-6 bg-blue-500 hover:bg-blue-600 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-2xl z-40 transition-transform active:scale-90 focus:outline-none"
+          className="sm:hidden fixed right-4 z-40 flex h-13 items-center gap-2 rounded-full bg-blue-500 px-4 text-sm font-bold text-white shadow-lg shadow-blue-500/25 transition-transform active:scale-95 focus:outline-none"
+          style={{ bottom: 'max(1rem, calc(env(safe-area-inset-bottom) + 1rem))' }}
+          title="Thêm lịch thi"
         >
-          <FiPlus />
+          <FiPlus className="h-5 w-5" />
+          <span>Thêm lịch</span>
         </button>
         
         {showToTop && (
           <button 
             onClick={handleScrollToTop}
-            className="fixed bottom-24 sm:bottom-8 right-6 sm:right-8 bg-white/95 border border-slate-200/80 backdrop-blur-md text-slate-600 w-11 h-11 rounded-full shadow-sm flex items-center justify-center transition-all z-30 active:scale-95"
+            className="fixed right-4 sm:right-8 bg-white/95 border border-slate-200/80 backdrop-blur-md text-slate-600 w-11 h-11 rounded-full shadow-sm flex items-center justify-center transition-all z-30 active:scale-95"
+            style={{ bottom: 'max(4.75rem, calc(env(safe-area-inset-bottom) + 4.75rem))' }}
           >
             <FiChevronUp className="w-5 h-5" />
           </button>
