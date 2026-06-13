@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useSidebar } from '@/app/admin/layout';
 import { 
@@ -51,10 +52,13 @@ export default function FAQPage() {
           {/* Header Section */}
           <div className="text-center pb-4 animate-[fadeIn_0.5s_ease-out]">
             <div className="inline-block p-1 rounded-3xl bg-[#002147] shadow-lg mb-4 transform transition-transform hover:scale-105 duration-300">
-              <img 
-                src="https://imgpx.com/fJEpqO59ze9b.webp" 
-                className="w-20 h-20 rounded-2xl border-4 border-white" 
-                alt="App Logo"
+              <Image
+                src="/Coithi.webp"
+                width={640}
+                height={640}
+                priority
+                className="w-20 h-20 rounded-2xl border-4 border-white object-cover"
+                alt="Coithi"
               />
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Sổ Tay Coi Thi</h2>
@@ -121,9 +125,9 @@ export default function FAQPage() {
                   <div>
                     <p className="font-bold text-slate-900 text-base">Thêm lịch thi mới</p>
                     <ul className="list-disc list-inside text-xs text-slate-500 mt-2 pl-1 space-y-1.5 marker:text-[#B45309]">
-                      <li>Nhấn nút <strong className="text-slate-800">"Tạo lịch"</strong> trên Dashboard chính.</li>
+                      <li>Nhấn nút <strong className="text-slate-800">&quot;Tạo lịch&quot;</strong> trên Dashboard chính.</li>
                       <li>Điền các thông tin: môn thi, ngày thi và các tiết bắt đầu/kết thúc.</li>
-                      <li>Chọn tab <strong className="text-slate-800">"Theo Buổi"</strong> nếu muốn tính thù lao cố định theo ca/buổi thi.</li>
+                      <li>Chọn tab <strong className="text-slate-800">&quot;Theo Buổi&quot;</strong> nếu muốn tính thù lao cố định theo ca/buổi thi.</li>
                     </ul>
                   </div>
                 </div>
