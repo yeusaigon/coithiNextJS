@@ -1,0 +1,299 @@
+@import "tailwindcss";
+
+:root {
+  --background: #F4F6F9; /* Clean academic light grey */
+  --foreground: #1C1C1E; /* iOS label color */
+  --ios-blue: #002147; /* Academic Navy */
+  --ios-green: #10B981;
+  --ios-red: #991B1B; /* Crimson Red */
+  --ios-orange: #B45309; /* Deep Gold/Amber */
+  --ios-indigo: #4338CA;
+  --ios-card: #FFFFFF;
+  --ios-separator: rgba(60, 60, 67, 0.08);
+  
+  /* Rich academic color palette */
+  --academic-navy: #002147;
+  --academic-gold: #D4AF37;
+  --academic-crimson: #800020;
+}
+
+@theme {
+  --animate-bounce-slow: bounce 3s infinite;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* iOS Card */
+.ios-card {
+  background: var(--ios-card);
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--ios-separator);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+}
+
+.ios-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+/* iOS Grouped List */
+.ios-list-group {
+  background: var(--ios-card);
+  border-radius: 14px;
+  border: 1px solid var(--ios-separator);
+  overflow: hidden;
+}
+
+.ios-list-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  background: var(--ios-card);
+  transition: background-color 0.1s ease;
+}
+
+.ios-list-item:not(:last-child) {
+  border-bottom: 0.5px solid var(--ios-separator);
+}
+
+.ios-list-item:active {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* iOS Segment Control */
+.ios-segment-control {
+  display: flex;
+  background: rgba(120, 120, 128, 0.12);
+  border-radius: 9px;
+  padding: 2px;
+  position: relative;
+  user-select: none;
+}
+
+.ios-segment-button {
+  flex: 1;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 0;
+  border-radius: 7px;
+  color: #1C1C1E;
+  cursor: pointer;
+  z-index: 1;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ios-segment-button.active {
+  background: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.04);
+  color: #000000;
+}
+
+/* iOS Bottom Sheet Modal style */
+.ios-bottom-sheet {
+  background: #FFFFFF;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 640px) {
+  .ios-bottom-sheet {
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+  }
+}
+
+/* Drag indicator for iOS Bottom Sheet */
+.ios-drag-indicator {
+  width: 36px;
+  height: 5px;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 2.5px;
+  margin: 10px auto 15px auto;
+}
+
+/* iOS Toggle Switch */
+.ios-toggle-container {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.ios-toggle-switch {
+  width: 51px;
+  height: 31px;
+  background-color: rgba(120, 120, 128, 0.16);
+  border-radius: 16px;
+  position: relative;
+  transition: background-color 0.2s;
+}
+
+.ios-toggle-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 27px;
+  height: 27px;
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15), 0 1px 1px rgba(0,0,0,0.16);
+  transition: transform 0.2s;
+}
+
+input:checked + .ios-toggle-switch {
+  background-color: var(--ios-blue);
+}
+
+input:checked + .ios-toggle-switch::after {
+  transform: translateX(20px);
+}
+
+/* Custom Utilities and Components */
+
+/* Social Share Button (landing page) */
+.social-share-btn {
+    @apply w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-200 hover:scale-110 bg-white/20;
+}
+
+/* Sidebar Navigation Link */
+.nav-link {
+    @apply flex items-center p-3 rounded-lg text-slate-600 font-medium transition-all duration-200 whitespace-nowrap hover:bg-slate-100 hover:text-slate-900 active:scale-95;
+}
+.nav-link.active {
+    @apply bg-blue-50 text-blue-600 font-bold shadow-sm ring-1 ring-blue-100/35;
+}
+.nav-link svg {
+    @apply mr-4 flex-shrink-0 transition-transform duration-200 text-slate-400;
+}
+.nav-link.active svg {
+    @apply text-blue-600 scale-105;
+}
+.nav-link:hover svg {
+    @apply text-slate-800 scale-110;
+}
+
+/* Modal Icon Wrapper */
+.modal-icon-wrapper {
+    @apply w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl shadow-sm transition-transform hover:scale-110;
+}
+
+/* Module Card (Settings) */
+.module-card {
+    @apply bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80 transition-shadow hover:shadow-md relative overflow-hidden;
+}
+
+/* Time Input (Settings) */
+.input-time {
+    @apply border border-slate-300 p-2.5 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none w-full sm:w-auto font-mono text-sm font-bold text-slate-700 text-center;
+}
+
+/* Stat Card (Statistics) */
+.stat-card {
+    @apply bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-blue-200;
+}
+.stat-label {
+    @apply text-sm font-semibold text-slate-500 uppercase tracking-wide;
+}
+.stat-value {
+    @apply text-3xl font-extrabold text-slate-900 mt-2 tracking-tight;
+}
+
+/* FAQ Card */
+.faq-card {
+    @apply bg-white rounded-3xl shadow-sm border border-slate-200 p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-blue-200;
+}
+
+/* Month Header */
+.month-header {
+    @apply text-[13px] font-semibold uppercase text-slate-500 pb-1 mb-2 mt-6 border-b border-slate-200/60 tracking-wider flex items-center gap-1.5;
+}
+
+/* Modal Inputs (Dashboard) */
+.modal-input {
+    @apply mt-1 block w-full border-slate-200 bg-slate-50/50 rounded-xl shadow-inner focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all p-3 border outline-none text-slate-800 font-medium;
+}
+
+/* Modal Inputs (Income Settings) */
+.income-modal-input {
+    @apply block w-full border-slate-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all p-3 border outline-none text-slate-800;
+}
+.modal-input-money {
+    @apply font-mono text-lg font-bold tracking-tight;
+}
+
+/* Interactive Elements Global defaults & iOS curves */
+button, select, input, a, .ios-card, .ios-list-item, .ios-segment-button, .nav-link {
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+button, select {
+    @apply active:scale-97 focus:outline-none;
+}
+button:focus-visible, select:focus-visible {
+    @apply ring-2 ring-offset-1 ring-blue-500/50;
+}
+
+input[type="text"] {
+    @apply focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none;
+}
+
+a.text-blue-600:hover {
+    @apply text-blue-800 underline decoration-2 underline-offset-4;
+}
+
+/* iOS Spring & Slide animations */
+@keyframes ios-slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.985);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-ios-slide-up {
+  animation: ios-slide-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Apply fade-slide animation on page wrapper loads */
+.flex-1.overflow-y-auto {
+  animation: ios-slide-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Shine text animation for App Name */
+@keyframes shimmer-shine {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shine-text {
+  background: linear-gradient(
+    120deg,
+    #002147 25%,
+    #0056b3 40%,
+    #ffe699 50%,
+    #0056b3 60%,
+    #002147 75%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer-shine 5.5s infinite linear;
+}
+

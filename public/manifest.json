@@ -1,0 +1,27 @@
+{
+  "name": "Sổ Tay Coi Thi",
+  "short_name": "Coi Thi",
+  "description": "Trợ lý coi thi đắc lực - Không bao giờ bỏ lỡ lịch thi.",
+  "id": "/",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f8fafc",
+  "theme_color": "#f8fafc",
+  "categories": [
+    "productivity",
+    "education"
+  ],
+  "icons": [
+    {
+      "src": "https://imgpx.com/fJEpqO59ze9b.webp",
+      "sizes": "192x192",
+      "type": "image/webp"
+    },
+    {
+      "src": "https://imgpx.com/fJEpqO59ze9b.webp",
+      "sizes": "512x512",
+      "type": "image/webp"
+    }
+  ]
+}

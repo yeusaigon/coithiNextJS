@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Đồng bộ Sổ Tay Coi Thi - IUH",
+  "version": "1.0",
+  "description": "Tự động đồng bộ lịch coi thi từ trang gv.iuh.edu.vn vào Sổ Tay Coi Thi.",
+  "permissions": [
+    "storage",
+    "tabs"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://gv.iuh.edu.vn/*"
+      ],
+      "js": ["content-iuh.js"]
+    },
+    {
+      "matches": [
+        "*://localhost/*",
+        "*://coithi.appsviet.com/*"
+      ],
+      "js": ["content-app.js"]
+    }
+  ],
+  "action": {}
+}
