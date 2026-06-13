@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sotaycoithi-nextjs-v1';
+const CACHE_NAME = 'sotaycoithi-nextjs-v2';
 const STATIC_ASSETS = [
   '/',
   '/manifest.json',
@@ -37,6 +37,7 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const req = event.request;
   const url = new URL(req.url);
+  const isLocalDev = ['localhost', '127.0.0.1', '::1'].includes(url.hostname);
 
   // Bỏ qua các API Firebase, Auth, Google APIs
   if (req.method !== 'GET' || 
@@ -44,6 +45,12 @@ self.addEventListener('fetch', event => {
       url.origin.includes('identitytoolkit.googleapis.com') || 
       url.origin.includes('securetoken.googleapis.com') ||
       url.origin.includes('googleapis.com')) {
+    return;
+  }
+
+  // Next dev dùng tên chunk ổn định, nên cache-first sẽ giữ UI cũ trên localhost.
+  if (isLocalDev && url.pathname.startsWith('/_next/')) {
+    event.respondWith(fetch(req));
     return;
   }
 

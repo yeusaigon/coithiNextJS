@@ -1,11 +1,14 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { FirebaseError } from 'firebase/app';
 import { signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider } from '@/lib/firebase';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 
 export default function LoginPage() {
   const { user, loading } = useAuth();
@@ -24,10 +27,11 @@ export default function LoginPage() {
     setSigningIn(true);
     try {
       await signInWithPopup(auth, googleProvider);
-    } catch (error: any) {
+    } catch (error: unknown) {
       setSigningIn(false);
-      const errorCode = error.code;
-      console.error(`Login Error [${errorCode}]:`, error.message);
+      const errorCode = error instanceof FirebaseError ? error.code : 'unknown';
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      console.error(`Login Error [${errorCode}]:`, errorMessage);
       if (errorCode === 'auth/popup-closed-by-user') {
         setErrorMessage('Bạn đã đóng cửa sổ đăng nhập. Vui lòng thử lại.');
       } else {
@@ -38,60 +42,73 @@ export default function LoginPage() {
 
   if (loading || (user && !signingIn)) {
     return (
-      <div className="fixed inset-0 bg-slate-50 flex items-center justify-center z-[9999]">
-        <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-white">
+        <div className="h-10 w-10 rounded-full border-4 border-[#1a73e8]/20 border-t-[#1a73e8] animate-spin"></div>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
-      {/* Left Side - Illustration */}
-      <div className="hidden lg:flex w-1/2 bg-blue-700 text-white p-12 flex-col justify-center items-center relative">
-        <Link href="/" className="absolute top-8 left-8 flex items-center gap-3 opacity-80 hover:opacity-100 transition-opacity">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
-          </svg>
-          <span>Quay về trang chủ</span>
-        </Link>
-        <div className="text-center">
-          <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=1470&auto=format&fit=crop" alt="Illustration" className="w-full max-w-md mx-auto rounded-lg shadow-2xl mb-8" />
-          <h1 className="text-3xl font-bold">Chào mừng trở lại!</h1>
-          <p className="mt-2 text-blue-200">Đăng nhập để tiếp tục quản lý lịch coi thi của bạn.</p>
-        </div>
-      </div>
-
-      {/* Right Side - Login Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-6">
-        <div className="w-full max-w-md text-center">
-          <Link href="/" className="inline-block mb-6">
-            <img src="https://imgpx.com/fJEpqO59ze9b.webp" alt="App Logo" className="h-16 w-16 rounded-2xl mx-auto" />
+    <main className="min-h-screen bg-[#f6f8fc] text-[#202124]">
+      <div className="mx-auto flex min-h-screen w-full max-w-5xl flex-col px-5 py-5 sm:px-8">
+        <header className="flex h-11 items-center">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium text-[#5f6368] hover:bg-white hover:text-[#202124] hover:shadow-sm"
+          >
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+            <span>Trang chủ</span>
           </Link>
-          
-          <h2 className="text-3xl font-bold text-slate-900">Đăng nhập vào Sổ Tay</h2>
-          <p className="text-slate-500 mt-2 mb-8">Sử dụng tài khoản Google của bạn để tiếp tục.</p>
+        </header>
 
-          <div className="bg-white p-8 rounded-lg border border-slate-200 shadow-sm text-left">
-            <button 
-              onClick={handleLogin}
-              disabled={signingIn}
-              className="w-full bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 font-semibold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center space-x-3 text-base disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <svg className="w-6 h-6 flex-shrink-0" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path>
-                <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path>
-                <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.222,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path>
-                <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.574l6.19,5.238C42.012,36.49,44,30.638,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
-              </svg>
-              <span>{signingIn ? 'Đang đăng nhập...' : 'Đăng nhập với Google'}</span>
-            </button>
-            {errorMessage && (
-              <div className="mt-4 text-red-600 font-semibold text-center text-sm">{errorMessage}</div>
-            )}
+        <section className="flex flex-1 items-center justify-center py-10">
+          <div className="w-full max-w-[440px]">
+            <div className="overflow-hidden rounded-lg border border-[#dadce0] bg-white shadow-[0_1px_2px_rgba(60,64,67,0.08),0_8px_24px_rgba(60,64,67,0.10)]">
+              <div className="h-1.5 w-full bg-[linear-gradient(90deg,#4285f4_0_25%,#ea4335_25%_50%,#fbbc04_50%_75%,#34a853_75%_100%)]" />
+
+              <div className="px-7 pb-8 pt-9 text-center sm:px-10">
+                <Image
+                  src="/Coithi.webp"
+                  alt="Coithi"
+                  width={640}
+                  height={640}
+                  priority
+                  className="mx-auto h-20 w-20 object-contain"
+                />
+
+                <h1 className="mt-8 text-3xl font-normal tracking-normal text-[#202124]">
+                  Chào mừng trở lại
+                </h1>
+                <p className="mx-auto mt-3 max-w-xs text-sm leading-6 text-[#5f6368]">
+                  Đăng nhập để tiếp tục quản lý lịch coi thi trên Coithi.
+                </p>
+
+                <button
+                  onClick={handleLogin}
+                  disabled={signingIn}
+                  className="mt-8 flex h-12 w-full items-center justify-center rounded-md border border-[#dadce0] bg-white px-5 text-sm font-medium text-[#3c4043] shadow-sm hover:border-[#c6dafc] hover:bg-[#f8fbff] hover:text-[#174ea6] hover:shadow-md disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {signingIn ? 'Đang đăng nhập...' : 'Tiếp tục với Google'}
+                </button>
+
+                {errorMessage && (
+                  <div className="mt-4 rounded-md border border-[#f4c7c3] bg-[#fce8e6] px-4 py-3 text-left text-sm font-medium leading-5 text-[#a50e0e]">
+                    {errorMessage}
+                  </div>
+                )}
+
+                <p className="mt-7 text-xs leading-5 text-[#5f6368]">
+                  Sử dụng tài khoản Google đã được cấp quyền truy cập.
+                </p>
+              </div>
+            </div>
+
+            <p className="mt-5 text-center text-xs leading-5 text-[#80868b]">
+              Coithi giúp quản lý lịch coi thi gọn gàng và nhất quán.
+            </p>
           </div>
-          <p className="text-xs text-slate-400 text-center mt-8">Bằng cách đăng nhập, bạn đồng ý với Điều khoản dịch vụ và Chính sách bảo mật của chúng tôi.</p>
-        </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 }

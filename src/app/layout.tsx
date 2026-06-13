@@ -17,10 +17,10 @@ export const metadata: Metadata = {
   description: "Quản lý lịch coi thi thông minh, hiệu quả và không bao giờ bỏ lỡ. Sổ Tay Coi Thi là trợ lý không thể thiếu cho mọi giảng viên.",
   manifest: "/manifest.json",
   icons: {
-    icon: "https://imgpx.com/fJEpqO59ze9b.webp",
-    shortcut: "https://imgpx.com/fJEpqO59ze9b.webp",
-    apple: "https://imgpx.com/fJEpqO59ze9b.webp",
-  }
+    icon: "/Coithi.webp",
+    shortcut: "/Coithi.webp",
+    apple: "/Coithi.webp",
+  },
 };
 
 export default function RootLayout({

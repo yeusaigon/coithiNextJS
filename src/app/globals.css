@@ -251,6 +251,105 @@ a.text-blue-600:hover {
     @apply text-blue-800 underline decoration-2 underline-offset-4;
 }
 
+/* Dashboard readability tuning */
+.dashboard-header h1 {
+  font-size: 1.35rem;
+  line-height: 1.9rem;
+}
+
+.dashboard-header button[title],
+.dashboard-header a[title] {
+  min-width: 3rem;
+  min-height: 3rem;
+}
+
+.dashboard-header button[title] {
+  font-size: 1rem;
+}
+
+.dashboard-header button[title] svg,
+.dashboard-header a[title] svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.dashboard-page {
+  font-size: 1.05rem;
+}
+
+.dashboard-page h3 {
+  font-size: 1.35rem;
+  line-height: 1.85rem;
+}
+
+.dashboard-page .ios-segment-button {
+  font-size: 1rem;
+  padding-top: 0.58rem;
+  padding-bottom: 0.58rem;
+}
+
+.dashboard-page .month-header {
+  font-size: 1rem;
+}
+
+.dashboard-page .ios-list-item {
+  padding: 1.15rem 1.25rem;
+}
+
+.dashboard-page .ios-list-item h4 {
+  font-size: 1.15rem;
+  line-height: 1.55rem;
+}
+
+.dashboard-page .ios-list-item p {
+  font-size: 0.98rem;
+  line-height: 1.45rem;
+}
+
+.dashboard-page .ios-list-item a,
+.dashboard-page .ios-list-item button {
+  width: 2.6rem;
+  height: 2.6rem;
+}
+
+.dashboard-page .ios-list-item a svg,
+.dashboard-page .ios-list-item button svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.dashboard-page .modal-input,
+.dashboard-page select,
+.dashboard-page textarea {
+  font-size: 1.05rem;
+}
+
+.dashboard-page .text-xs {
+  font-size: 0.9rem;
+  line-height: 1.3rem;
+}
+
+.dashboard-page .text-sm {
+  font-size: 1rem;
+  line-height: 1.45rem;
+}
+
+@media (min-width: 640px) {
+  .dashboard-header h1 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  .dashboard-page .ios-list-item {
+    padding: 1.25rem 1.4rem;
+  }
+
+  .dashboard-page h3 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+}
+
 /* iOS Spring & Slide animations */
 @keyframes ios-slide-up {
   0% {
@@ -296,4 +395,3 @@ a.text-blue-600:hover {
   -webkit-text-fill-color: transparent;
   animation: shimmer-shine 5.5s infinite linear;
 }
-

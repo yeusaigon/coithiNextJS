@@ -705,7 +705,7 @@ export default function DashboardPage() {
   return (
     <>
       {/* Header bar */}
-      <header className="bg-white/80 backdrop-blur-lg border-b border-slate-200/50 h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8 flex-shrink-0 z-20 sticky top-0 transition-shadow">
+      <header className="dashboard-header bg-white/80 backdrop-blur-lg border-b border-slate-200/50 h-[4.5rem] flex items-center justify-between px-4 sm:px-6 lg:px-8 flex-shrink-0 z-20 sticky top-0 transition-shadow">
         <div className="flex items-center gap-3">
           <button 
             onClick={toggleSidebar}
@@ -767,7 +767,7 @@ export default function DashboardPage() {
       </header>
 
       {/* Main Content Area */}
-      <main id="main-content-scroll" className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 scroll-smooth bg-[#F2F2F7]">
+      <main id="main-content-scroll" className="dashboard-page flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 scroll-smooth bg-[#F2F2F7]">
         <div className="max-w-6xl 2xl:max-w-7xl mx-auto space-y-6">
           
           {/* SKELETON LOADER */}

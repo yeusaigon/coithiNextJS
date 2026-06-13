@@ -62,15 +62,15 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               alt="App Logo"
             />
             <div className="flex flex-col">
-              <h1 className="text-lg font-black uppercase tracking-wider leading-none shine-text">Sổ Tay Coi Thi</h1>
-              <span className="text-[10px] text-slate-400 font-bold mt-1">Trợ lý giảng viên</span>
+              <h1 className="text-xl font-black uppercase tracking-wider leading-none shine-text">Sổ Tay Coi Thi</h1>
+              <span className="text-xs text-slate-400 font-bold mt-1">Trợ lý giảng viên</span>
             </div>
           </Link>
         </div>
 
         {/* Navigation Items */}
         <nav className="flex-grow mt-2">
-          <ul className="space-y-1 text-sm">
+          <ul className="space-y-1.5 text-base">
             {MENU_ITEMS.map((item) => {
               const isActive = pathname === item.href || (item.href === '/admin/dashboard' && pathname === '/admin');
               return (
@@ -78,13 +78,13 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                   <Link 
                     href={item.href} 
                     onClick={onClose}
-                    className={`flex items-center px-3 py-2.5 rounded-lg font-medium transition-all duration-150 whitespace-nowrap active:scale-98 ${
+                    className={`flex items-center px-3.5 py-3 rounded-lg font-medium transition-all duration-150 whitespace-nowrap active:scale-98 ${
                       isActive 
                         ? 'bg-blue-500/10 text-blue-600 font-semibold' 
                         : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
                     }`}
                   >
-                    <item.Icon className={`w-4.5 h-4.5 mr-3 flex-shrink-0 transition-transform duration-200 ${
+                    <item.Icon className={`w-5 h-5 mr-3.5 flex-shrink-0 transition-transform duration-200 ${
                       isActive ? 'text-blue-600' : 'text-slate-400 group-hover:text-slate-600'
                     }`} />
                     <span>{item.label}</span>
@@ -101,10 +101,10 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             <div className="text-left min-w-0 flex-grow pl-1">
               <div className="flex items-center gap-1 mb-0.5">
                 <span className="inline-flex items-center justify-center w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Giảng viên</span>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Giảng viên</span>
               </div>
-              <p className="text-xs font-bold text-slate-800 truncate pr-1" title={userName}>{userName}</p>
-              <p className="text-[10px] text-slate-450 font-medium truncate" title={userEmail}>{userEmail}</p>
+              <p className="text-sm font-bold text-slate-800 truncate pr-1" title={userName}>{userName}</p>
+              <p className="text-xs text-slate-450 font-medium truncate" title={userEmail}>{userEmail}</p>
             </div>
             <button 
               onClick={() => {
@@ -112,13 +112,13 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                   logout();
                 }
               }}
-              className="w-8 h-8 rounded-lg bg-rose-50 border border-rose-100 hover:bg-rose-600 hover:text-white hover:border-rose-600 text-rose-600 flex items-center justify-center transition-all active:scale-95 flex-shrink-0 shadow-sm"
+              className="w-9 h-9 rounded-lg bg-rose-50 border border-rose-100 hover:bg-rose-600 hover:text-white hover:border-rose-600 text-rose-600 flex items-center justify-center transition-all active:scale-95 flex-shrink-0 shadow-sm"
               title="Đăng xuất"
             >
-              <FaRightFromBracket className="w-3.5 h-3.5" />
+              <FaRightFromBracket className="w-4 h-4" />
             </button>
           </div>
-          <p className="text-[9px] text-slate-400 text-center tracking-wider font-semibold">
+          <p className="text-[10px] text-slate-400 text-center tracking-wider font-semibold">
             &copy; {new Date().getFullYear()} Phan Minh Trí
           </p>
         </div>
