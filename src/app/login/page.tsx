@@ -49,12 +49,12 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f6f8fc] text-[#202124]">
+    <main className="login-page min-h-screen bg-[#f6f8fc] text-[#202124]">
       <div className="mx-auto flex min-h-screen w-full max-w-5xl flex-col px-5 py-5 sm:px-8">
         <header className="flex h-11 items-center">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium text-[#5f6368] hover:bg-white hover:text-[#202124] hover:shadow-sm"
+            className="login-back-link inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium text-[#5f6368] hover:bg-white hover:text-[#202124] hover:shadow-sm"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             <span>Trang chủ</span>
@@ -63,7 +63,7 @@ export default function LoginPage() {
 
         <section className="flex flex-1 items-center justify-center py-10">
           <div className="w-full max-w-[440px]">
-            <div className="overflow-hidden rounded-lg border border-[#dadce0] bg-white shadow-[0_1px_2px_rgba(60,64,67,0.08),0_8px_24px_rgba(60,64,67,0.10)]">
+            <div className="login-card overflow-hidden rounded-lg border border-[#dadce0] bg-white shadow-[0_1px_2px_rgba(60,64,67,0.08),0_8px_24px_rgba(60,64,67,0.10)]">
               <div className="h-1.5 w-full bg-[linear-gradient(90deg,#4285f4_0_25%,#ea4335_25%_50%,#fbbc04_50%_75%,#34a853_75%_100%)]" />
 
               <div className="px-7 pb-8 pt-9 text-center sm:px-10">
@@ -73,7 +73,7 @@ export default function LoginPage() {
                   width={640}
                   height={640}
                   priority
-                  className="mx-auto h-20 w-20 object-contain"
+                  className="login-logo mx-auto h-20 w-20 object-contain"
                 />
 
                 <h1 className="mt-8 text-3xl font-normal tracking-normal text-[#202124]">
@@ -103,7 +103,7 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <p className="mt-5 text-center text-xs leading-5 text-[#80868b]">
+            <p className="login-caption mt-5 text-center text-xs leading-5 text-[#80868b]">
               Coithi giúp quản lý lịch coi thi gọn gàng và nhất quán.
             </p>
           </div>

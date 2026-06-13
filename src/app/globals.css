@@ -251,6 +251,156 @@ a.text-blue-600:hover {
     @apply text-blue-800 underline decoration-2 underline-offset-4;
 }
 
+/* Landing page light entrance effects */
+@keyframes landing-page-enter {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes landing-nav-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes landing-fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.landing-page {
+  animation: landing-page-enter 0.28s ease both;
+}
+
+.landing-nav {
+  animation: landing-nav-in 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.landing-hero {
+  opacity: 0;
+  animation: landing-fade-up 0.52s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.08s;
+}
+
+.landing-panel {
+  opacity: 0;
+  animation: landing-fade-up 0.56s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.18s;
+}
+
+.landing-reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: landing-fade-up 0.52s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-page,
+  .landing-nav,
+  .landing-hero,
+  .landing-panel,
+  .landing-reveal {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .landing-panel {
+    animation-delay: 0.65s;
+  }
+}
+
+/* Login page entrance effects */
+@keyframes login-page-enter {
+  0% {
+    opacity: 0;
+    background-color: #ffffff;
+  }
+  100% {
+    opacity: 1;
+    background-color: #f6f8fc;
+  }
+}
+
+@keyframes login-card-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.985);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes login-logo-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.login-page {
+  animation: login-page-enter 0.24s ease both;
+}
+
+.login-back-link,
+.login-caption {
+  opacity: 0;
+  animation: landing-fade-up 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.login-card {
+  opacity: 0;
+  animation: login-card-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.06s;
+}
+
+.login-logo {
+  opacity: 0;
+  animation: login-logo-enter 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.18s;
+}
+
+.login-caption {
+  animation-delay: 0.18s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-page,
+  .login-back-link,
+  .login-card,
+  .login-logo,
+  .login-caption {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 /* Dashboard readability tuning */
 .dashboard-header h1 {
   font-size: 1.35rem;
