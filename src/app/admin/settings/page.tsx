@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
 import { useSidebar } from '@/app/admin/layout';
 import { db } from '@/lib/firebase';
+import { useDelayedBoolean } from '@/hooks/useDelayedBoolean';
 import { 
   collection, 
   doc, 
@@ -71,6 +72,7 @@ export default function SettingsPage() {
   const [customMap, setCustomMap] = useState<Record<number, { start: string; end: string }>>({});
   const [schedules, setSchedules] = useState<ScheduleItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const showSkeleton = useDelayedBoolean(loading, 1000);
   const [submitting, setSubmitting] = useState(false);
 
   // Notification state
@@ -349,7 +351,7 @@ export default function SettingsPage() {
       </header>
 
       {/* Main Area */}
-      <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 scroll-smooth bg-[#F2F2F7]">
+      <main className="admin-page flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 scroll-smooth bg-[#F2F2F7]">
         <div className="max-w-6xl 2xl:max-w-7xl mx-auto space-y-6 pb-10">
           
           <div className="mb-4">
@@ -384,7 +386,7 @@ export default function SettingsPage() {
           </div>
 
           {/* SKELETON LOADING */}
-          {loading && (
+          {loading && showSkeleton && (
             <div className="bg-white p-8 rounded-3xl border border-slate-200/50 h-96 animate-pulse space-y-4">
               <div className="h-6 w-1/4 bg-slate-200 rounded"></div>
               <div className="h-4 w-1/2 bg-slate-100 rounded"></div>
@@ -645,7 +647,7 @@ export default function SettingsPage() {
       {/* MODAL: DELETE BY MONTH */}
       {isDeleteMonthOpen && (
         <div className="modal fixed inset-0 bg-slate-900/60 backdrop-blur-md items-center justify-center p-4 z-50 flex active">
-          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 text-center relative overflow-hidden mx-4">
+          <div className="admin-page bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 text-center relative overflow-hidden mx-4">
             <button 
               onClick={() => setIsDeleteMonthOpen(false)}
               className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 transition-colors cursor-pointer"
@@ -708,7 +710,7 @@ export default function SettingsPage() {
       {/* MODAL: DELETE ALL */}
       {isDeleteAllOpen && (
         <div className="modal fixed inset-0 bg-slate-900/60 backdrop-blur-md items-center justify-center p-4 z-50 flex active">
-          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-sm p-8 text-center border-t-4 border-red-500 relative mx-4">
+          <div className="admin-page bg-white rounded-3xl shadow-2xl w-full max-w-sm p-8 text-center border-t-4 border-red-500 relative mx-4">
             <button 
               onClick={() => setIsDeleteAllOpen(false)}
               className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 transition-colors cursor-pointer"
@@ -734,11 +736,6 @@ export default function SettingsPage() {
       )}
 
       {/* Backdrop overlay loader when submitting */}
-      {submitting && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-[9999] flex items-center justify-center">
-          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-        </div>
-      )}
     </>
   );
 }

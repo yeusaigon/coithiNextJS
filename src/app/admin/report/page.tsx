@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { useDelayedBoolean } from '@/hooks/useDelayedBoolean';
 
 interface ScheduleItem {
   id?: string;
@@ -16,6 +17,11 @@ export default function ReportPrintPage() {
   const [title, setTitle] = useState('');
   const [user, setUser] = useState('');
   const [loading, setLoading] = useState(true);
+  const showSkeleton = useDelayedBoolean(loading, 1000);
+
+  const finishLoading = () => {
+    window.setTimeout(() => setLoading(false), 0);
+  };
 
   useEffect(() => {
     const reportDataJSON = localStorage.getItem('reportData');
@@ -23,26 +29,49 @@ export default function ReportPrintPage() {
     const reportUser = localStorage.getItem('reportUser');
 
     if (!reportDataJSON) {
-      setLoading(false);
+      finishLoading();
       return;
     }
 
     try {
       const parsed = JSON.parse(reportDataJSON);
-      setData(parsed);
-      setTitle(reportTitle || 'Báo cáo tổng hợp');
-      setUser(reportUser || 'Giảng viên');
+      window.setTimeout(() => {
+        setData(parsed);
+        setTitle(reportTitle || 'Báo cáo tổng hợp');
+        setUser(reportUser || 'Giảng viên');
+        setLoading(false);
+      }, 0);
     } catch (error) {
       console.error('Lỗi dữ liệu báo cáo:', error);
-    } finally {
-      setLoading(false);
+      finishLoading();
     }
   }, []);
 
-  if (loading) {
+  if (loading && showSkeleton) {
     return (
-      <div className="flex h-screen items-center justify-center bg-slate-50">
-        <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen bg-slate-50 p-6 md:p-8">
+        <div className="mx-auto max-w-4xl space-y-6 animate-pulse">
+          <div className="rounded-3xl border border-slate-200/60 bg-white p-6 md:p-10">
+            <div className="mb-8 flex items-start justify-between gap-4 border-b border-slate-200 pb-6">
+              <div className="space-y-3">
+                <div className="h-8 w-72 rounded-xl bg-slate-200" />
+                <div className="h-5 w-96 rounded-lg bg-slate-100" />
+              </div>
+              <div className="space-y-3 text-right">
+                <div className="h-6 w-40 rounded-lg bg-slate-200 ml-auto" />
+                <div className="h-4 w-28 rounded-lg bg-slate-100 ml-auto" />
+              </div>
+            </div>
+            <div className="space-y-3">
+              <div className="h-12 rounded-xl bg-slate-100" />
+              <div className="h-12 rounded-xl bg-slate-100" />
+              <div className="h-12 rounded-xl bg-slate-100" />
+            </div>
+            <div className="mt-8 grid gap-3">
+              <div className="h-24 rounded-2xl bg-slate-100" />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

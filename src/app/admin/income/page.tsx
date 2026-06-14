@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
 import { useSidebar } from '@/app/admin/layout';
 import { db } from '@/lib/firebase';
+import { useDelayedBoolean } from '@/hooks/useDelayedBoolean';
 import { collection, doc, onSnapshot, query, orderBy, setDoc, getDoc } from 'firebase/firestore';
 import { Schedule } from '@/lib/export';
 
@@ -48,6 +49,7 @@ export default function IncomePage() {
   // --- STATE ---
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [loading, setLoading] = useState(true);
+  const showSkeleton = useDelayedBoolean(loading, 1000);
   const [school, setSchool] = useState('iuh');
   const [customTimeMap, setCustomTimeMap] = useState<any>({});
 
@@ -401,11 +403,11 @@ export default function IncomePage() {
       </header>
 
       {/* Main view content */}
-      <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 scroll-smooth bg-[#F2F2F7]">
+      <div className="admin-page flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 scroll-smooth bg-[#F2F2F7]">
         <div className="max-w-6xl 2xl:max-w-7xl mx-auto space-y-6">
 
           {/* SKELETON LOADER */}
-          {loading && (
+          {loading && showSkeleton && (
             <div className="bg-white rounded-2xl border border-slate-200/50 overflow-hidden animate-pulse h-96"></div>
           )}
 
@@ -706,7 +708,7 @@ export default function IncomePage() {
             </div>
             
             {/* Body Modal */}
-            <div className="flex-grow overflow-y-auto p-6 space-y-6 custom-scrollbar bg-[#F2F2F7]">
+            <div className="admin-page flex-grow overflow-y-auto p-6 space-y-6 custom-scrollbar bg-[#F2F2F7]">
               
               {/* Section 1: General configuration */}
               <div className="bg-white p-5 rounded-2xl border border-slate-205/60 shadow-xs relative overflow-hidden">

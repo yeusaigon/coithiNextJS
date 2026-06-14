@@ -26,11 +26,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }, [user, loading, router]);
 
   if (loading) {
-    return (
-      <div className="fixed inset-0 bg-slate-50 flex items-center justify-center z-[9999]">
-        <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
+    return null;
   }
 
   if (!user) return null;
@@ -55,4 +51,3 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     </SidebarContext.Provider>
   );
 }
-

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useSidebar } from '@/app/admin/layout';
 import { db } from '@/lib/firebase';
+import { useDelayedBoolean } from '@/hooks/useDelayedBoolean';
 import { collection, onSnapshot, query, orderBy, getDoc, doc } from 'firebase/firestore';
 import { Schedule } from '@/lib/export';
 
@@ -55,6 +56,7 @@ export default function StatsPage() {
 
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [loading, setLoading] = useState(true);
+  const showSkeleton = useDelayedBoolean(loading, 1000);
   const [school, setSchool] = useState('iuh');
   const [customTimeMap, setCustomTimeMap] = useState<any>({});
   const [showToTop, setShowToTop] = useState(false);
@@ -264,7 +266,7 @@ export default function StatsPage() {
       <div 
         id="stats-scroll-container"
         onScroll={handleScroll}
-        className="flex-grow overflow-y-auto p-4 sm:p-6 lg:p-8 scroll-smooth bg-[#F2F2F7]"
+        className="admin-page flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 scroll-smooth bg-[#F2F2F7]"
       >
         <div className="max-w-6xl 2xl:max-w-7xl mx-auto space-y-6">
           
@@ -274,7 +276,7 @@ export default function StatsPage() {
           </div>
 
           {/* SKELETON LOADER */}
-          {loading && (
+          {loading && showSkeleton && (
             <div className="space-y-6 animate-pulse">
               <div className="bg-white p-6 h-96 rounded-2xl border border-slate-200/50"></div>
               <div className="bg-white p-6 h-64 rounded-2xl border border-slate-200/50"></div>

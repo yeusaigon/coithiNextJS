@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
 import { useSidebar } from '@/app/admin/layout';
 import { db } from '@/lib/firebase';
+import { useDelayedBoolean } from '@/hooks/useDelayedBoolean';
 import { 
   collection, doc, addDoc, onSnapshot, query, orderBy, deleteDoc, updateDoc, writeBatch, Timestamp, getDoc 
 } from 'firebase/firestore';
@@ -46,6 +47,7 @@ export default function DashboardPage() {
   // --- STATE ---
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [loading, setLoading] = useState(true);
+  const showSkeleton = useDelayedBoolean(loading, 1000);
   const [school, setSchool] = useState('iuh');
   const [customTimeMap, setCustomTimeMap] = useState<any>({});
   
@@ -733,32 +735,30 @@ export default function DashboardPage() {
         </div>
         
         <div className="flex items-center gap-2">
-          {/* Add schedule button - hidden on mobile as mobile uses FAB */}
-          <button 
-            onClick={handleOpenAddModal}
-            className="hidden sm:flex bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-xl transition-all duration-150 items-center gap-1.5 shadow-sm active:scale-95 text-sm"
-            title="Tạo lịch thi mới"
-          >
-            <FiPlus className="text-base" />
-            <span>Tạo lịch</span>
-          </button>
-          
-          <div className="h-5 w-px bg-slate-200/80 mx-1 hidden sm:block"></div>
-
           <div ref={toolsMenuRef} className="relative">
             <button
               type="button"
               onClick={() => setIsToolsMenuOpen(prev => !prev)}
-              className="inline-flex h-10 items-center gap-2 rounded-xl border border-slate-200 bg-slate-100 px-3 text-sm font-bold text-slate-700 transition-all hover:bg-slate-50 hover:text-slate-900 active:scale-95"
+              className="inline-flex h-10 items-center gap-2 rounded-xl px-2 text-sm font-bold text-slate-500 transition-colors hover:text-slate-900 active:scale-95"
               title="Tiện ích lịch thi"
             >
               <FiSettings className="h-4 w-4" />
               <span className="hidden sm:inline">Tiện ích</span>
-              <FiChevronDown className={`h-4 w-4 transition-transform ${isToolsMenuOpen ? 'rotate-180' : ''}`} />
             </button>
 
             {isToolsMenuOpen && (
               <div className="absolute right-0 top-12 z-40 w-56 overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-[0_20px_45px_rgba(15,23,42,0.14)]">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsToolsMenuOpen(false);
+                    handleOpenAddModal();
+                  }}
+                  className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-semibold text-slate-700 transition-colors hover:bg-blue-50 hover:text-blue-700"
+                >
+                  <FiPlus className="text-sm" />
+                  <span>Tạo lịch thi mới</span>
+                </button>
                 <button
                   type="button"
                   onClick={() => {
@@ -814,7 +814,7 @@ export default function DashboardPage() {
         <div className="max-w-6xl 2xl:max-w-7xl mx-auto space-y-6">
           
           {/* SKELETON LOADER */}
-          {loading && (
+          {loading && showSkeleton && (
             <div className="space-y-4">
               <div className="bg-white/60 p-8 rounded-2xl animate-pulse h-36 border border-slate-200/40"></div>
               <div className="bg-white/60 p-4 rounded-2xl border border-slate-200/40 animate-pulse h-20"></div>
@@ -1044,16 +1044,6 @@ export default function DashboardPage() {
 
         </div>
 
-        {/* Floating Add Button - iOS Rounded FAB style */}
-        <button 
-          onClick={handleOpenAddModal}
-          className="sm:hidden fixed right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-blue-500 text-white shadow-[0_18px_35px_rgba(37,99,235,0.28)] ring-1 ring-white/30 transition-transform active:scale-95 focus:outline-none"
-          style={{ bottom: 'max(3rem, calc(env(safe-area-inset-bottom) + 3rem))' }}
-          title="Thêm lịch thi"
-        >
-          <FiPlus className="h-6 w-6" />
-        </button>
-        
         {showToTop && (
           <button 
             onClick={handleScrollToTop}

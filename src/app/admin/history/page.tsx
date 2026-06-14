@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
 import { useSidebar } from '@/app/admin/layout';
 import { db } from '@/lib/firebase';
+import { useDelayedBoolean } from '@/hooks/useDelayedBoolean';
 import { collection, onSnapshot, query, orderBy, doc, deleteDoc, getDoc } from 'firebase/firestore';
 import { Schedule } from '@/lib/export';
 
@@ -40,6 +41,7 @@ export default function HistoryPage() {
   // --- STATE ---
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [loading, setLoading] = useState(true);
+  const showSkeleton = useDelayedBoolean(loading, 1000);
   const [school, setSchool] = useState('iuh');
   const [customTimeMap, setCustomTimeMap] = useState<any>({});
 
@@ -303,7 +305,7 @@ export default function HistoryPage() {
       <div 
         id="history-scroll-container"
         onScroll={handleScroll}
-        className="flex-grow overflow-y-auto p-4 sm:p-6 lg:p-8 scroll-smooth bg-[#F2F2F7]"
+        className="history-page flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 scroll-smooth bg-[#F2F2F7]"
       >
         <div className="max-w-6xl 2xl:max-w-7xl mx-auto space-y-6">
 
@@ -365,7 +367,7 @@ export default function HistoryPage() {
           )}
 
           {/* SKELETON LOADER */}
-          {loading && (
+          {loading && showSkeleton && (
             <div className="space-y-4">
               <div className="bg-white p-4 rounded-xl border border-slate-100 h-24 animate-pulse"></div>
               <div className="bg-white p-4 rounded-xl border border-slate-100 h-24 animate-pulse"></div>
@@ -415,7 +417,7 @@ export default function HistoryPage() {
                                   {/* Square Date Badge */}
                                   <div className={`flex-shrink-0 text-center w-12 h-12 ${bgClass} rounded-xl flex flex-col justify-center items-center`}>
                                     <p className={`text-xl font-extrabold ${textClass} leading-none`}>{dateNum}</p>
-                                    <p className={`text-[9px] font-bold uppercase ${textClass} mt-0.5`}>{dayLabel}</p>
+                                    <p className={`text-xs font-bold uppercase ${textClass} mt-0.5`}>{dayLabel}</p>
                                   </div>
 
                                   <div className="min-w-0">
@@ -434,7 +436,7 @@ export default function HistoryPage() {
                                       )}
                                     </p>
                                     {s.note && (
-                                      <p className="text-[11px] text-slate-400 mt-1 italic flex items-center gap-1">
+                                      <p className="text-xs text-slate-400 mt-1 italic flex items-center gap-1">
                                         <FiEdit3 className="h-3 w-3" />
                                         <span>{highlightText(s.note, searchKeyword)}</span>
                                       </p>
