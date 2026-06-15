@@ -7,7 +7,6 @@ import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { 
   FaHouse, 
-  FaClockRotateLeft, 
   FaChartLine, 
   FaCoins, 
   FaCalendarDays, 
@@ -23,7 +22,6 @@ interface SidebarProps {
 
 const MENU_ITEMS = [
   { id: 'dashboard', href: '/admin/dashboard', Icon: FaHouse, label: 'Bảng điều khiển' },
-  { id: 'history', href: '/admin/history', Icon: FaClockRotateLeft, label: 'Lịch sử coi thi' },
   { id: 'stats', href: '/admin/stats', Icon: FaChartLine, label: 'Phân tích & Thống kê' },
   { id: 'income', href: '/admin/income', Icon: FaCoins, label: 'Quản lý thu nhập' },
   { id: 'tkb', href: '/admin/tkb', Icon: FaCalendarDays, label: 'Thời khóa biểu - IUH' },

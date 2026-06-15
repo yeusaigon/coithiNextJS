@@ -6,30 +6,30 @@ import { useToast } from '@/context/ToastContext';
 import { useSidebar } from '@/app/admin/layout';
 import { db } from '@/lib/firebase';
 import { useDelayedBoolean } from '@/hooks/useDelayedBoolean';
-import { 
-  collection, 
-  doc, 
-  onSnapshot, 
-  query, 
-  orderBy, 
-  writeBatch, 
-  getDocs, 
-  getDoc, 
-  setDoc 
+import {
+  collection,
+  doc,
+  onSnapshot,
+  query,
+  orderBy,
+  writeBatch,
+  getDocs,
+  getDoc,
+  setDoc
 } from 'firebase/firestore';
 import { handleBackupJSON, handleRestoreJSON } from '@/lib/backup';
-import { 
-  FiMenu, 
-  FiClock, 
-  FiSliders, 
-  FiSave, 
-  FiBell, 
-  FiDownload, 
-  FiUpload, 
-  FiTrash2, 
-  FiAlertTriangle, 
-  FiX, 
-  FiCheck 
+import {
+  FiMenu,
+  FiClock,
+  FiSliders,
+  FiSave,
+  FiBell,
+  FiDownload,
+  FiUpload,
+  FiTrash2,
+  FiAlertTriangle,
+  FiX,
+  FiCheck
 } from 'react-icons/fi';
 import { FaSun, FaCloudSun, FaMoon, FaBroom } from 'react-icons/fa6';
 
@@ -160,7 +160,7 @@ export default function SettingsPage() {
         payload.customMap = finalizedMap;
         setCustomMap(finalizedMap);
       }
-      
+
       await setDoc(doc(db, 'users', user.uid, 'settings', 'school'), payload, { merge: true });
       showToast("Đã lưu cấu hình giờ học thành công!", "success");
     } catch (error) {
@@ -201,10 +201,10 @@ export default function SettingsPage() {
     if (!file) return;
 
     handleRestoreJSON(
-      file, 
-      user, 
-      setSubmitting, 
-      showToast, 
+      file,
+      user,
+      setSubmitting,
+      showToast,
       () => window.location.reload()
     );
     e.target.value = '';
@@ -270,7 +270,7 @@ export default function SettingsPage() {
   };
 
   const toggleMonthSelection = (month: string) => {
-    setSelectedMonths(prev => 
+    setSelectedMonths(prev =>
       prev.includes(month) ? prev.filter(m => m !== month) : [...prev, month]
     );
   };
@@ -337,7 +337,7 @@ export default function SettingsPage() {
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-lg border-b border-slate-200/50 h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8 flex-shrink-0 z-20 sticky top-0 transition-shadow">
         <div className="flex items-center gap-3">
-          <button 
+          <button
             onClick={toggleSidebar}
             className="text-slate-500 hover:text-slate-800 lg:hidden focus:outline-none p-2 rounded-full hover:bg-slate-100 transition-colors"
           >
@@ -353,36 +353,31 @@ export default function SettingsPage() {
       {/* Main Area */}
       <main className="admin-page flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 scroll-smooth bg-[#F2F2F7]">
         <div className="max-w-6xl 2xl:max-w-7xl mx-auto space-y-6 pb-10">
-          
-          <div className="mb-4">
-            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">Cấu hình hệ thống</h2>
-            <p className="text-slate-550 mt-1 text-xs sm:text-sm font-medium">Thiết lập cấu hình khung giờ thi, thông báo nhắc nhở và sao lưu dữ liệu.</p>
-          </div>
 
-          {/* TAB NAVIGATION */}
-          <div className="flex p-1 bg-slate-200/60 rounded-2xl w-full sm:w-fit gap-1 font-semibold shadow-inner border border-slate-200/30">
-            <button 
-              type="button" 
-              onClick={() => setActiveTab('school')}
-              className={`flex-1 sm:flex-initial px-6 py-2.5 text-xs font-extrabold rounded-xl transition-all duration-200 focus:outline-none flex items-center justify-center gap-2 ${
-                activeTab === 'school' 
-                  ? 'bg-white text-slate-900 shadow-sm border border-slate-200/50' 
-                  : 'text-slate-500 hover:text-slate-800'
-              }`}
-            >
-              <FiClock /> Khung giờ chuẩn
-            </button>
-            <button 
-              type="button" 
-              onClick={() => setActiveTab('general')}
-              className={`flex-1 sm:flex-initial px-6 py-2.5 text-xs font-extrabold rounded-xl transition-all duration-200 focus:outline-none flex items-center justify-center gap-2 ${
-                activeTab === 'general' 
-                  ? 'bg-white text-slate-900 shadow-sm border border-slate-200/50' 
-                  : 'text-slate-500 hover:text-slate-800'
-              }`}
-            >
-              <FiSliders /> Cài đặt chung
-            </button>
+          {/* TAB NAVIGATION - ĐỒNG BỘ THIẾT KẾ PILL / SEGMENTED CONTROL */}
+          <div className="mb-2 sm:mb-4 animate-[fadeIn_0.3s_ease-out] flex overflow-x-auto hide-scrollbar mt-2 sm:mt-0">
+            <div className="inline-flex items-center p-1.5 bg-[#f1f5f9] rounded-2xl flex-shrink-0">
+              <button
+                onClick={() => setActiveTab('school')}
+                className={`flex items-center gap-2.5 px-5 sm:px-6 py-2.5 sm:py-3 text-[13px] sm:text-sm transition-all duration-200 rounded-xl whitespace-nowrap outline-none ${activeTab === 'school'
+                    ? 'bg-white text-[#111827] font-bold shadow-sm'
+                    : 'text-[#64748b] hover:text-[#334155] font-semibold'
+                  }`}
+              >
+                <FiClock className={`h-4 w-4 ${activeTab === 'school' ? 'text-[#111827]' : 'text-[#94a3b8]'}`} />
+                Khung giờ chuẩn
+              </button>
+              <button
+                onClick={() => setActiveTab('general')}
+                className={`flex items-center gap-2.5 px-5 sm:px-6 py-2.5 sm:py-3 text-[13px] sm:text-sm transition-all duration-200 rounded-xl whitespace-nowrap outline-none ${activeTab === 'general'
+                    ? 'bg-white text-[#111827] font-bold shadow-sm'
+                    : 'text-[#64748b] hover:text-[#334155] font-semibold'
+                  }`}
+              >
+                <FiSliders className={`h-4 w-4 ${activeTab === 'general' ? 'text-[#111827]' : 'text-[#94a3b8]'}`} />
+                Cài đặt chung
+              </button>
+            </div>
           </div>
 
           {/* SKELETON LOADING */}
@@ -396,40 +391,38 @@ export default function SettingsPage() {
 
           {/* ACTUAL DISPLAY */}
           {!loading && (
-            <>
+            <div key={activeTab} className="animate-[fadeIn_0.4s_ease-out]">
               {/* TAB 1: KHUNG GIỜ CHUẨN */}
               {activeTab === 'school' && (
-                <div className="space-y-6 animate-fadeIn">
-                  <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/50 transition-shadow hover:shadow-md relative overflow-hidden">
+                <div className="space-y-6">
+                  <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-[#dadce0] transition-shadow hover:shadow-[0_1px_3px_rgba(60,64,67,0.1)] relative overflow-hidden">
                     <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-slate-100 mb-6">
                       <div>
                         <h3 className="font-extrabold text-slate-900 text-lg flex items-center gap-2">
-                          <FiClock className="text-blue-500" /> Cấu hình khung giờ
+                          <FiClock className="text-[#1a73e8]" /> Cấu hình khung giờ
                         </h3>
                         <p className="text-xs text-slate-500 mt-1 font-medium">Lựa chọn áp dụng khung giờ học tiêu chuẩn hoặc tùy chỉnh chi tiết cho từng tiết.</p>
                       </div>
 
-                      {/* Pill Switcher */}
-                      <div className="flex bg-slate-200/60 p-1 rounded-2xl self-start border border-slate-200/30 shadow-inner">
-                        <button 
-                          type="button" 
+                      {/* Pill Switcher - Đồng bộ thiết kế tab nhỏ bên trong */}
+                      <div className="inline-flex items-center p-1.5 bg-[#f1f5f9] rounded-2xl flex-shrink-0 self-start">
+                        <button
+                          type="button"
                           onClick={() => setSchoolType('iuh')}
-                          className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all focus:outline-none flex items-center gap-2 ${
-                            schoolType === 'iuh'
-                              ? 'bg-white text-slate-900 shadow-sm border border-slate-200/50'
-                              : 'text-slate-505 hover:text-slate-800'
-                          }`}
+                          className={`px-4 py-2 text-xs sm:text-[13px] transition-all duration-200 rounded-xl whitespace-nowrap outline-none ${schoolType === 'iuh'
+                              ? 'bg-white text-[#111827] font-bold shadow-sm'
+                              : 'text-[#64748b] hover:text-[#334155] font-semibold'
+                            }`}
                         >
                           ĐH Công nghiệp
                         </button>
-                        <button 
-                          type="button" 
+                        <button
+                          type="button"
                           onClick={() => setSchoolType('custom')}
-                          className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all focus:outline-none flex items-center gap-2 ${
-                            schoolType === 'custom'
-                              ? 'bg-white text-slate-900 shadow-sm border border-slate-200/50'
-                              : 'text-slate-505 hover:text-slate-800'
-                          }`}
+                          className={`px-4 py-2 text-xs sm:text-[13px] transition-all duration-200 rounded-xl whitespace-nowrap outline-none ${schoolType === 'custom'
+                              ? 'bg-white text-[#111827] font-bold shadow-sm'
+                              : 'text-[#64748b] hover:text-[#334155] font-semibold'
+                            }`}
                         >
                           Cá nhân hóa
                         </button>
@@ -441,7 +434,7 @@ export default function SettingsPage() {
                       {shifts.map((shift, idx) => {
                         const ShiftIcon = shift.icon;
                         return (
-                          <div 
+                          <div
                             key={idx}
                             className={`flex flex-col bg-white border ${shift.borderColor} ${shift.bgLight} rounded-3xl p-5 shadow-sm relative overflow-hidden transition-all duration-300 hover:shadow-md`}
                           >
@@ -463,7 +456,7 @@ export default function SettingsPage() {
 
                                 if (schoolType === 'custom') {
                                   return (
-                                    <div 
+                                    <div
                                       key={p}
                                       className="flex items-center justify-between p-3 bg-white border border-slate-100 rounded-2xl shadow-sm hover:border-slate-300 transition-colors group"
                                     >
@@ -471,25 +464,25 @@ export default function SettingsPage() {
                                         Tiết {p}
                                       </span>
                                       <div className="flex items-center gap-1.5">
-                                        <input 
-                                          type="time" 
-                                          value={startVal} 
+                                        <input
+                                          type="time"
+                                          value={startVal}
                                           onChange={(e) => handleCustomTimeChange(p, 'start', e.target.value)}
-                                          className="w-[76px] text-center text-sm font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100/70 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 rounded-lg p-1 transition-all outline-none"
+                                          className="w-[76px] text-center text-sm font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100/70 border border-slate-200 focus:border-[#1a73e8] focus:ring-1 focus:ring-[#1a73e8] rounded-lg p-1 transition-all outline-none"
                                         />
                                         <span className="text-slate-300 font-bold text-xs">-</span>
-                                        <input 
-                                          type="time" 
-                                          value={endVal} 
+                                        <input
+                                          type="time"
+                                          value={endVal}
                                           onChange={(e) => handleCustomTimeChange(p, 'end', e.target.value)}
-                                          className="w-[76px] text-center text-sm font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100/70 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 rounded-lg p-1 transition-all outline-none"
+                                          className="w-[76px] text-center text-sm font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100/70 border border-slate-200 focus:border-[#1a73e8] focus:ring-1 focus:ring-[#1a73e8] rounded-lg p-1 transition-all outline-none"
                                         />
                                       </div>
                                     </div>
                                   );
                                 } else {
                                   return (
-                                    <div 
+                                    <div
                                       key={p}
                                       className="flex items-center justify-between p-3 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow transition-shadow"
                                     >
@@ -510,10 +503,10 @@ export default function SettingsPage() {
                     </div>
 
                     <div className="mt-8 pt-6 border-t border-slate-100 flex justify-end">
-                      <button 
+                      <button
                         onClick={handleSaveSchoolHours}
                         disabled={submitting}
-                        className="w-full sm:w-auto px-6 py-3.5 bg-[#002147] hover:bg-[#002147]/95 text-white font-bold rounded-xl transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full sm:w-auto px-6 py-3.5 bg-[#1a73e8] hover:bg-[#1557b0] text-white font-bold rounded-xl transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         <FiSave />
                         <span>Lưu cấu hình giờ học</span>
@@ -525,13 +518,13 @@ export default function SettingsPage() {
 
               {/* TAB 2: CÀI ĐẶT CHUNG */}
               {activeTab === 'general' && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start animate-fadeIn">
-                  
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+
                   {/* LEFT COLUMN: NOTIFICATION & BACKUP */}
                   <div className="flex flex-col gap-6">
-                    
+
                     {/* Assistant Reminder */}
-                    <div className="bg-white p-6 rounded-3xl border border-slate-200/50 shadow-sm flex items-center justify-between gap-4">
+                    <div className="bg-white p-6 rounded-3xl border border-[#dadce0] shadow-sm flex items-center justify-between gap-4">
                       <div className="flex items-center gap-4">
                         <div className="w-10 h-10 rounded-xl bg-yellow-50 flex items-center justify-center text-yellow-600 border border-yellow-100">
                           <FiBell className="text-lg" />
@@ -542,18 +535,18 @@ export default function SettingsPage() {
                         </div>
                       </div>
                       <label className="relative inline-flex items-center cursor-pointer">
-                        <input 
-                          type="checkbox" 
+                        <input
+                          type="checkbox"
                           checked={notificationsEnabled}
                           onChange={handleNotificationToggle}
-                          className="sr-only peer" 
+                          className="sr-only peer"
                         />
-                        <div className="w-11 h-6 bg-slate-205 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
+                        <div className="w-11 h-6 bg-slate-205 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#1a73e8]"></div>
                       </label>
                     </div>
 
                     {/* Cloud Storage (JSON Backup/Restore) */}
-                    <div className="bg-white p-6 rounded-3xl border border-slate-200/50 shadow-sm">
+                    <div className="bg-white p-6 rounded-3xl border border-[#dadce0] shadow-sm">
                       <div className="flex items-center gap-3 mb-5">
                         <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 border border-emerald-100">
                           <FiDownload className="text-lg" />
@@ -563,27 +556,27 @@ export default function SettingsPage() {
                       <p className="text-xs text-slate-500 mb-5 leading-relaxed font-medium">Xuất toàn bộ lịch thi, thu nhập và cấu hình ra file JSON để lưu trữ hoặc khôi phục khi cần thiết.</p>
 
                       <div className="grid grid-cols-2 gap-3">
-                        <button 
+                        <button
                           onClick={() => handleBackupJSON(user!, schedules, showToast)}
-                          className="flex flex-col items-center justify-center p-4 bg-slate-50 border border-slate-200/60 rounded-2xl hover:bg-[#002147]/5 hover:border-[#002147]/20 hover:text-[#002147] transition-all active:scale-95 group shadow-xs cursor-pointer"
+                          className="flex flex-col items-center justify-center p-4 bg-slate-50 border border-slate-200/60 rounded-2xl hover:bg-[#1a73e8]/5 hover:border-[#1a73e8]/20 hover:text-[#1a73e8] transition-all active:scale-95 group shadow-xs cursor-pointer"
                         >
-                          <FiDownload className="text-2xl text-slate-400 group-hover:text-[#002147] mb-2 transition-colors" />
-                          <span className="text-xs font-bold text-slate-700 group-hover:text-[#002147]">Tạo bản sao</span>
+                          <FiDownload className="text-2xl text-slate-400 group-hover:text-[#1a73e8] mb-2 transition-colors" />
+                          <span className="text-xs font-bold text-slate-700 group-hover:text-[#1a73e8]">Tạo bản sao</span>
                         </button>
 
-                        <label 
+                        <label
                           htmlFor="restore-json-file"
                           className="flex flex-col items-center justify-center p-4 bg-slate-50 border border-slate-200/60 rounded-2xl hover:bg-emerald-55/10 hover:border-emerald-200/55 hover:text-emerald-700 transition-all cursor-pointer active:scale-95 group shadow-xs"
                         >
                           <FiUpload className="text-2xl text-slate-400 group-hover:text-emerald-605 mb-2 transition-colors" />
                           <span className="text-xs font-bold text-slate-700 group-hover:text-emerald-700">Khôi phục</span>
                         </label>
-                        <input 
-                          type="file" 
-                          id="restore-json-file" 
+                        <input
+                          type="file"
+                          id="restore-json-file"
                           onChange={handleRestoreFile}
-                          className="hidden" 
-                          accept=".json" 
+                          className="hidden"
+                          accept=".json"
                         />
                       </div>
                     </div>
@@ -592,7 +585,7 @@ export default function SettingsPage() {
 
                   {/* RIGHT COLUMN: DANGER ZONE */}
                   <div className="flex flex-col gap-6">
-                    
+
                     {/* Danger Zone Card */}
                     <div className="bg-white p-6 rounded-3xl border border-red-200 bg-red-50/10 relative overflow-hidden shadow-sm">
                       <div className="absolute top-0 left-0 w-1 h-full bg-red-500"></div>
@@ -607,7 +600,7 @@ export default function SettingsPage() {
                       </div>
 
                       <div className="space-y-3 pl-2">
-                        <button 
+                        <button
                           onClick={() => {
                             setSelectedMonths([]);
                             setIsDeleteMonthOpen(true);
@@ -621,7 +614,7 @@ export default function SettingsPage() {
                           <FaBroom className="text-slate-300 group-hover:text-[#B45309] text-base" />
                         </button>
 
-                        <button 
+                        <button
                           onClick={() => setIsDeleteAllOpen(true)}
                           className="w-full p-4 bg-white border border-red-200 rounded-2xl hover:bg-red-600 hover:text-white hover:border-red-600 transition-all flex items-center justify-between group shadow-xs cursor-pointer"
                         >
@@ -638,7 +631,7 @@ export default function SettingsPage() {
 
                 </div>
               )}
-            </>
+            </div>
           )}
 
         </div>
@@ -648,7 +641,7 @@ export default function SettingsPage() {
       {isDeleteMonthOpen && (
         <div className="modal fixed inset-0 bg-slate-900/60 backdrop-blur-md items-center justify-center p-4 z-50 flex active">
           <div className="admin-page bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 text-center relative overflow-hidden mx-4">
-            <button 
+            <button
               onClick={() => setIsDeleteMonthOpen(false)}
               className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 transition-colors cursor-pointer"
             >
@@ -669,15 +662,14 @@ export default function SettingsPage() {
                     const [year, month] = m.split('-');
                     const isChecked = selectedMonths.includes(m);
                     return (
-                      <label 
-                        key={m} 
-                        className={`flex items-center justify-between p-3 bg-white border rounded-xl cursor-pointer hover:border-[#B45309]/30 hover:bg-[#B45309]/5 transition-all group shadow-sm ${
-                          isChecked ? 'border-[#B45309] bg-[#B45309]/5' : 'border-slate-200'
-                        }`}
+                      <label
+                        key={m}
+                        className={`flex items-center justify-between p-3 bg-white border rounded-xl cursor-pointer hover:border-[#B45309]/30 hover:bg-[#B45309]/5 transition-all group shadow-sm ${isChecked ? 'border-[#B45309] bg-[#B45309]/5' : 'border-slate-200'
+                          }`}
                       >
                         <div className="flex items-center gap-3">
-                          <input 
-                            type="checkbox" 
+                          <input
+                            type="checkbox"
                             checked={isChecked}
                             onChange={() => toggleMonthSelection(m)}
                             className="w-4 h-4 text-[#B45309] rounded border-slate-300 focus:ring-[#B45309] cursor-pointer"
@@ -695,8 +687,8 @@ export default function SettingsPage() {
                 </div>
               )}
             </div>
-            
-            <button 
+
+            <button
               onClick={handleConfirmDeleteMonths}
               disabled={selectedMonths.length === 0 || submitting}
               className="w-full py-3 bg-[#B45309] hover:bg-[#B45309]/95 text-white font-bold rounded-xl shadow-md active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer text-xs"
@@ -711,7 +703,7 @@ export default function SettingsPage() {
       {isDeleteAllOpen && (
         <div className="modal fixed inset-0 bg-slate-900/60 backdrop-blur-md items-center justify-center p-4 z-50 flex active">
           <div className="admin-page bg-white rounded-3xl shadow-2xl w-full max-w-sm p-8 text-center border-t-4 border-red-500 relative mx-4">
-            <button 
+            <button
               onClick={() => setIsDeleteAllOpen(false)}
               className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 transition-colors cursor-pointer"
             >
@@ -724,7 +716,7 @@ export default function SettingsPage() {
             <p className="text-slate-500 text-xs mb-6 leading-relaxed">
               Bạn đang yêu cầu xóa <strong>TOÀN BỘ</strong> lịch coi thi của tài khoản.<br />Hành động này không thể hoàn tác.
             </p>
-            <button 
+            <button
               onClick={handleConfirmDeleteAll}
               disabled={submitting}
               className="w-full py-3 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition shadow-lg shadow-red-600/30 active:scale-95 cursor-pointer text-xs"
@@ -734,8 +726,6 @@ export default function SettingsPage() {
           </div>
         </div>
       )}
-
-      {/* Backdrop overlay loader when submitting */}
     </>
   );
 }

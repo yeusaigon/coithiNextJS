@@ -20,6 +20,8 @@ import {
 } from 'react-icons/fi';
 import { FaGoogle, FaFileExcel, FaCircleInfo, FaFileImport, FaGraduationCap, FaBookOpen } from 'react-icons/fa6';
 
+const MOBILE_STATS_VISIBILITY_KEY = 'admin-dashboard-mobile-stats-visible';
+
 const DEFAULT_SCHOOL_TIME_MAP = {
   1: { start: "06:30", end: "07:20" },
   2: { start: "07:20", end: "08:10" },
@@ -95,7 +97,11 @@ export default function DashboardPage() {
 
   // Countdown timer state
   const [upcomingCountdown, setUpcomingCountdown] = useState('-');
-  const [showStatsMobile, setShowStatsMobile] = useState(true);
+  const [showStatsMobile, setShowStatsMobile] = useState(() => {
+    if (typeof window === 'undefined') return true;
+    const storedValue = window.localStorage.getItem(MOBILE_STATS_VISIBILITY_KEY);
+    return storedValue === null ? true : storedValue === 'true';
+  });
   const [countdownUrgency, setCountdownUrgency] = useState<'normal' | 'urgent' | 'ongoing'>('normal');
   const [scheduleFilter, setScheduleFilter] = useState<'all' | 'week' | 'month'>('all');
 
@@ -190,6 +196,10 @@ export default function DashboardPage() {
     document.addEventListener('mousedown', handlePointerDown);
     return () => document.removeEventListener('mousedown', handlePointerDown);
   }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem(MOBILE_STATS_VISIBILITY_KEY, String(showStatsMobile));
+  }, [showStatsMobile]);
 
   // Autocomplete & Unique month parsing
   useEffect(() => {
@@ -741,9 +751,9 @@ export default function DashboardPage() {
               onClick={() => setIsToolsMenuOpen(prev => !prev)}
               className="inline-flex h-10 items-center gap-2 rounded-xl px-2 text-sm font-bold text-slate-500 transition-colors hover:text-slate-900 active:scale-95"
               title="Tiện ích lịch thi"
+              aria-label="Tiện ích lịch thi"
             >
               <FiSettings className="h-4 w-4" />
-              <span className="hidden sm:inline">Tiện ích</span>
             </button>
 
             {isToolsMenuOpen && (

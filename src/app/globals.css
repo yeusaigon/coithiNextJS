@@ -513,56 +513,6 @@ a.text-blue-600:hover {
   line-height: 1.85rem;
 }
 
-.history-page {
-  font-size: 1.05rem;
-}
-
-.history-page h3 {
-  font-size: 1.35rem;
-  line-height: 1.85rem;
-}
-
-.history-page .month-header {
-  font-size: 1rem;
-}
-
-.history-page .ios-list-item {
-  padding: 1.15rem 1.25rem;
-}
-
-.history-page .ios-list-item h4 {
-  font-size: 1.15rem;
-  line-height: 1.55rem;
-}
-
-.history-page .ios-list-item p {
-  font-size: 0.98rem;
-  line-height: 1.45rem;
-}
-
-.history-page .text-xs {
-  font-size: 0.9rem;
-  line-height: 1.3rem;
-}
-
-.history-page .text-sm {
-  font-size: 1rem;
-  line-height: 1.45rem;
-}
-
-.history-page .history-filter-label,
-.history-page .history-stat-label,
-.history-page .history-empty-text,
-.history-page .history-note {
-  font-size: 0.98rem;
-  line-height: 1.45rem;
-}
-
-.history-page .history-list-meta {
-  font-size: 1rem;
-  line-height: 1.45rem;
-}
-
 @media (min-width: 640px) {
   .dashboard-header h1 {
     font-size: 1.5rem;
@@ -579,15 +529,6 @@ a.text-blue-600:hover {
   }
 
   .admin-page h3 {
-    font-size: 1.5rem;
-    line-height: 2rem;
-  }
-
-  .history-page .ios-list-item {
-    padding: 1.25rem 1.4rem;
-  }
-
-  .history-page h3 {
     font-size: 1.5rem;
     line-height: 2rem;
   }
